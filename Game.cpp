@@ -3,7 +3,7 @@
 
 //globally defined variables
 using namespace std;
-string board[9] = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
+char board[9] = { ' ',' ',' ',' ',' ',' ',' ',' ',' ' };
 int player = 1;
 int position = 0;
 
@@ -14,22 +14,124 @@ void drawBoard()
 	cout << "\n";
 	cout << "\t\t\t\t\t\t *****************\n";
 	cout << "\t\t\t\t\t\t    Tic-Tac-Toe\n";
-	cout << "\t\t\t\t\t\t *****************\n";
+	cout << "\t\t\t\t\t\t *****************\n\n\n\n";
 
-	cout << "Player 1) X\n";
-	cout << "Player 2) O\n";
 
-	cout << "The 3x3 grid is shown below:\n\n";
-
-	cout << "\t\t\t\t\t\t     |     |      \n";
-	cout << "\t\t\t\t\t\t  1  |  2  |  3   \n";
-	cout << "\t\t\t\t\t\t_____|_____|_____ \n";
-	cout << "\t\t\t\t\t\t     |     |      \n";
-	cout << "\t\t\t\t\t\t  4  |  5  |  6   \n";
-	cout << "\t\t\t\t\t\t_____|_____|_____ \n";
-	cout << "\t\t\t\t\t\t     |     |      \n";
-	cout << "\t\t\t\t\t\t  7  |  8  |  9   \n";
-	cout << "\t\t\t\t\t\t     |     |      \n\n";
+    cout << "\t\t\t\t\t\t     |     |      \n";
+    cout << "\t\t\t\t\t\t  " << board[0] << "  |  " << board[1] << "  |  " << board[2] << "   \n";
+    cout << "\t\t\t\t\t\t_____|_____|_____ \n";
+    cout << "\t\t\t\t\t\t     |     |      \n";
+    cout << "\t\t\t\t\t\t  " << board[3] << "  |  " << board[4] << "  |  " << board[5] << "   \n";
+    cout << "\t\t\t\t\t\t_____|_____|_____ \n";
+    cout << "\t\t\t\t\t\t     |     |      \n";
+    cout << "\t\t\t\t\t\t  " << board[6] << "  |  " << board[7] << "  |  " << board[8] << "   \n";
+    cout << "\t\t\t\t\t\t     |     |      \n\n";
 
 
 }
+
+void playerVSplayer()
+{
+    string player1, player2;
+    cout << "Enter First Player Name : ";
+    cin >> player1;
+    cout << "Enter Second Player Name : ";
+    cin >> player2;
+    while (true) {
+        system("cls");
+        drawBoard();
+        if (boardCount('X') == boardCount('O')) {
+            cout << player1 << "'s Turn." << endl;
+            playerChoice(1);
+        }
+        else {
+            cout << player2 << "'s Turn." << endl;
+            playerChoice(2);
+        }
+        char winner = checkWinner();
+        if (winner == 'X') {
+            system("cls");
+            drawBoard();
+            cout << player1 << " Won The Game." << endl;
+            break;
+        }
+        else if (winner == 'O') {
+            system("cls");
+            drawBoard();
+            cout << player2 << " Won The Game." << endl;
+            break;
+        }
+        else if (winner == 'D') {
+            cout << "Game is Draw." << endl;
+            break;
+        }
+    }
+}
+
+void playerChoice(int symbol )
+{
+    while (true) {
+        cout << "Select Your Position(1 – 9) : ";
+        int choice;
+        cin >> choice;
+        choice--;
+        if (choice < 0 || choice > 8) {
+            cout << "Please Select Your Choice From(1 – 9)." << endl;
+        }
+        else if (board[choice] != ' ') {
+            cout << "Please Select An Empty Position." << endl;
+        }
+        else {
+            if (symbol == 1)
+            {
+                board[choice] = 'X';
+                break;
+            }
+            else
+            {
+                board[choice] = 'O';
+                break;
+            }
+        }
+    }
+}
+
+char checkWinner()
+{
+    // checking winner in horizontal/row
+    if (board[0] == board[1] && board[1] == board[2] && board[0] != ' ')
+        return board[0];
+    if (board[3] == board[4] && board[4] == board[5] && board[3] != ' ')
+        return board[3];
+    if (board[6] == board[7] && board[7] == board[8] && board[6] != ' ')
+        return board[6];
+    // checking winner in vertical/column
+    if (board[0] == board[3] && board[3] == board[6] && board[0] != ' ')
+        return board[0];
+    if (board[1] == board[4] && board[4] == board[7] && board[1] != ' ')
+        return board[1];
+    if (board[2] == board[5] && board[5] == board[8] && board[2] != ' ')
+        return board[2];
+    // checking winner in diagonal
+    if (board[0] == board[4] && board[4] == board[8] && board[0] != ' ')
+        return board[0];
+    if (board[2] == board[4] && board[4] == board[6] && board[2] != ' ')
+        return board[2];
+    if (boardCount('X') + boardCount('O') < 9)
+        return 'C';
+    else
+        return 'D';
+}
+
+int boardCount(char symbol)
+{
+    int total = 0;
+    for (int i = 0; i < 9; i++) {
+        if (board[i] == symbol)
+            total += 1;
+    }
+   return total;
+}
+
+
+
