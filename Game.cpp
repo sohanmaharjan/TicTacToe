@@ -4,8 +4,8 @@
 //globally defined variables
 using namespace std;
 char board[9] = { ' ',' ',' ',' ',' ',' ',' ',' ',' ' };
-int player = 1;
-int position = 0;
+//int player = 1;
+//int position = 0;
 int computerWin, computerDraw, computerLoss;
 
 //draw a TicTacToe board to play
@@ -33,42 +33,54 @@ void drawBoard()
 
 void playerVScomputer()
 {
+    system("cls");
+    cout << "\n";
+    cout << "\t\t\t\t\t\t *****************\n";
+    cout << "\t\t\t\t\t\t    Tic-Tac-Toe\n";
+    cout << "\t\t\t\t\t\t *****************\n\n\n\n";
+    cout << "You are playing against computer.\n\n" << endl;
     string playerName, option;
     cout << "Enter Your Name : ";
     cin >> playerName;
     bool play = true;
-
-    while (true) {
-        system("cls");
-        drawBoard();
-        if (boardCount('X') == boardCount('O')) {
-            cout << playerName << "'s Turn." << endl;
-            playerChoice(1);
-        }
-        else {
-            computerChoice();
-        }
-        char winner = checkWinner();
-        if (winner == 'X') {
+    do
+    {
+        while (true)
+        {
             system("cls");
             drawBoard();
-            cout << playerName << " Won The Game." << endl;
-            computerHistory(-1);
-            break;
+            if (boardCount('X') == boardCount('O')) {
+                cout << "Your Turn." << endl;
+                playerChoice(1);
+            }
+            else {
+                computerChoice();
+            }
+            char winner = checkWinner();
+            if (winner == 'X') {
+                system("cls");
+                drawBoard();
+                cout << playerName << " Won The Game." << endl;
+                computerHistory(-1);
+                break;
+            }
+            else if (winner == 'O') {
+                system("cls");
+                drawBoard();
+                cout << "Computer Won The Game." << endl;
+                computerHistory(1);
+                break;
+            }
+            else if (winner == 'D') {
+                cout << "Game is Draw." << endl;
+                computerHistory(0);
+                break;
+            }
         }
-        else if (winner == 'O') {
-            system("cls");
-            drawBoard();
-            cout << "Computer Won The Game." << endl;
-            computerHistory(1);
-            break;
-        }
-        else if (winner == 'D') {
-            cout << "Game is Draw." << endl;
-            computerHistory(0);
-            break;
-        }
-    }
+        cout << "Do you want to play again? " << endl;
+        cin >> option;
+        clearBoard();
+    } while (option == "Y" || option == "y");
 }
 
 void computerChoice()
@@ -98,49 +110,63 @@ void computerHistory(int result)
         computerDraw++;
     }
 
-    cout << "\n\n\t\t\t\tComputer History" << endl;
-    cout << "\t\t\t\tWin: \t" << computerWin << endl;
-    cout << "\t\t\t\tLoss: \t" << computerLoss << endl;
-    cout << "\t\t\t\tDraw: \t" << computerDraw << endl;
+    cout << "\n\n\t\tComputer History" << endl;
+    cout << "\t\tWin: \t" << computerWin << endl;
+    cout << "\t\tLoss: \t" << computerLoss << endl;
+    cout << "\t\tDraw: \t" << computerDraw << endl;
     //cout << computerWin << "    " << computerLoss << "     " << computerDraw << endl;
 }
 
 void playerVSplayer()
 {
-    string player1, player2;
+    string player1, player2,option;
+    system("cls");
+    cout << "\n";
+    cout << "\t\t\t\t\t\t *****************\n";
+    cout << "\t\t\t\t\t\t    Tic-Tac-Toe\n";
+    cout << "\t\t\t\t\t\t *****************\n\n\n\n";
+    cout << "You are playing two player mode.\n\n" << endl;
     cout << "Enter First Player Name : ";
     cin >> player1;
     cout << "Enter Second Player Name : ";
     cin >> player2;
-    while (true) {
-        system("cls");
-        drawBoard();
-        if (boardCount('X') == boardCount('O')) {
-            cout << player1 << "'s Turn." << endl;
-            playerChoice(1);
-        }
-        else {
-            cout << player2 << "'s Turn." << endl;
-            playerChoice(2);
-        }
-        char winner = checkWinner();
-        if (winner == 'X') {
+
+    do
+    {
+        while (true)
+        {
             system("cls");
             drawBoard();
-            cout << player1 << " Won The Game." << endl;
-            break;
+            if (boardCount('X') == boardCount('O')) {
+                cout << player1 << "'s Turn." << endl;
+                playerChoice(1);
+            }
+            else {
+                cout << player2 << "'s Turn." << endl;
+                playerChoice(2);
+            }
+            char winner = checkWinner();
+            if (winner == 'X') {
+                system("cls");
+                drawBoard();
+                cout << player1 << " Won The Game." << endl;
+                break;
+            }
+            else if (winner == 'O') {
+                system("cls");
+                drawBoard();
+                cout << player2 << " Won The Game." << endl;
+                break;
+            }
+            else if (winner == 'D') {
+                cout << "Game is Draw." << endl;
+                break;
+            }
         }
-        else if (winner == 'O') {
-            system("cls");
-            drawBoard();
-            cout << player2 << " Won The Game." << endl;
-            break;
-        }
-        else if (winner == 'D') {
-            cout << "Game is Draw." << endl;
-            break;
-        }
-    }
+        cout << "Do you want to play again? " << endl;
+        cin >> option;
+        clearBoard();
+    } while (option == "Y" || option == "y");
 }
 
 void playerChoice(int symbol )
@@ -206,6 +232,16 @@ int boardCount(char symbol)
             total += 1;
     }
    return total;
+}
+
+void clearBoard()
+{
+    //makes the array empty and resets the board
+    //lets user to play again
+    for (int i = 0; i < 9; i++)
+    {
+        board[i] = ' ';
+    }
 }
 
 
