@@ -30,6 +30,57 @@ void drawBoard()
 
 }
 
+void playerVScomputer()
+{
+    string playerName, option;
+    cout << "Enter Your Name : ";
+    cin >> playerName;
+    bool play = true;
+
+    while (true) {
+        system("cls");
+        drawBoard();
+        if (boardCount('X') == boardCount('O')) {
+            cout << playerName << "'s Turn." << endl;
+            playerChoice(1);
+        }
+        else {
+            computerChoice();
+        }
+        char winner = checkWinner();
+        if (winner == 'X') {
+            system("cls");
+            drawBoard();
+            cout << playerName << " Won The Game." << endl;
+            //computerHistory(-1);
+            break;
+        }
+        else if (winner == 'O') {
+            system("cls");
+            drawBoard();
+            cout << "Computer Won The Game." << endl;
+            //computerHistory(1);
+            break;
+        }
+        else if (winner == 'D') {
+            cout << "Game is Draw." << endl;
+            //computerHistory(0);
+            break;
+        }
+    }
+}
+
+void computerChoice()
+{
+    srand(time(0));
+    int choice;
+    do
+    {
+        choice = rand() % 10;
+    } while (board[choice] != ' ');
+    board[choice] = 'O';
+}
+
 void playerVSplayer()
 {
     string player1, player2;
@@ -71,12 +122,12 @@ void playerVSplayer()
 void playerChoice(int symbol )
 {
     while (true) {
-        cout << "Select Your Position(1 – 9) : ";
+        cout << "Select Your Position(1 - 9) : ";
         int choice;
         cin >> choice;
         choice--;
         if (choice < 0 || choice > 8) {
-            cout << "Please Select Your Choice From(1 – 9)." << endl;
+            cout << "Please Select Your Choice From(1 - 9)." << endl;
         }
         else if (board[choice] != ' ') {
             cout << "Please Select An Empty Position." << endl;

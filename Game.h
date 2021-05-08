@@ -10,8 +10,8 @@ public:
 
 void drawBoard();
 
-//void playerVScomputer();
-//void computerChoice();
+void playerVScomputer();
+void computerChoice();
 
 void playerVSplayer();
 void playerChoice(int symbol);
