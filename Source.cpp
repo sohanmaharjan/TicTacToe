@@ -17,7 +17,7 @@ int main()
     cin >> mode;
     switch (mode) {
     case 1:
-        //computer_vs_player();
+        playerVScomputer();
         break;
     case 2:
         playerVSplayer();
@@ -26,6 +26,6 @@ int main()
         cout << "Please Select Valid Game Mode." << endl;
         break;
     }
-    system("cls");
+    //system("cls");
     return 0;
 }
