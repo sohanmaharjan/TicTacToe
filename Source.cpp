@@ -19,9 +19,11 @@ int main()
     case 1:
         playerVScomputer();
         break;
+ 
     case 2:
         playerVSplayer();
         break;
+
     default:
         cout << "Please Select Valid Game Mode." << endl;
         break;

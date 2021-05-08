@@ -22,5 +22,7 @@ char checkWinner();
 
 int boardCount(char symbol);
 
+void clearBoard();
+
 
 
