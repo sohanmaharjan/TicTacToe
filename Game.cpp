@@ -6,6 +6,7 @@ using namespace std;
 char board[9] = { ' ',' ',' ',' ',' ',' ',' ',' ',' ' };
 int player = 1;
 int position = 0;
+int computerWin, computerDraw, computerLoss;
 
 //draw a TicTacToe board to play
 void drawBoard()
@@ -52,19 +53,19 @@ void playerVScomputer()
             system("cls");
             drawBoard();
             cout << playerName << " Won The Game." << endl;
-            //computerHistory(-1);
+            computerHistory(-1);
             break;
         }
         else if (winner == 'O') {
             system("cls");
             drawBoard();
             cout << "Computer Won The Game." << endl;
-            //computerHistory(1);
+            computerHistory(1);
             break;
         }
         else if (winner == 'D') {
             cout << "Game is Draw." << endl;
-            //computerHistory(0);
+            computerHistory(0);
             break;
         }
     }
@@ -79,6 +80,29 @@ void computerChoice()
         choice = rand() % 10;
     } while (board[choice] != ' ');
     board[choice] = 'O';
+}
+
+void computerHistory(int result)
+{
+    //int win, loss, draw;
+    if (result < 0)
+    {
+        computerLoss++;
+    }
+    else if (result > 0)
+    {
+        computerWin++;
+    }
+    else
+    {
+        computerDraw++;
+    }
+
+    cout << "\n\n\t\t\t\tComputer History" << endl;
+    cout << "\t\t\t\tWin: \t" << computerWin << endl;
+    cout << "\t\t\t\tLoss: \t" << computerLoss << endl;
+    cout << "\t\t\t\tDraw: \t" << computerDraw << endl;
+    //cout << computerWin << "    " << computerLoss << "     " << computerDraw << endl;
 }
 
 void playerVSplayer()
