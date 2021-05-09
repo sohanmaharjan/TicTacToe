@@ -10,15 +10,18 @@ public:
 };
 
 void drawBoard();
+void displayMenuScreen();
+void displayExitScreen();
+void displayPreviewScreen();
 
 void playerVScomputer();
-//void computerChoice();
 void computerVScomputer();
-void computerHistory(int result);
-
 void playerVSplayer();
-void playerChoice(int symbol);
 
+void playerChoice(int symbol);
+void getComputerChoice(int symbol);
+
+void computerHistory(int result);
 
 char checkWinner();
 
@@ -26,11 +29,13 @@ int boardCount(char symbol);
 
 void clearBoard();
 
-void getComputerChoice(int symbol);
 int score();
 int minimax(char AIBoard[9]);
 int maxSearch(char AIBoard[9]);
 int minSearch(char AIBoard[9]);
+
+
+
 
 
 
