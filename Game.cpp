@@ -1,4 +1,7 @@
 #include <iostream>
+#include <conio.h>
+#include <Windows.h>
+#include <chrono>
 #include "Game.h"
 
 //globally defined variables
@@ -42,7 +45,7 @@ void playerVScomputer()
     string playerName, option;
     cout << "Enter Your Name : ";
     cin >> playerName;
-    bool play = true;
+ 
     do
     {
         while (true)
@@ -54,7 +57,7 @@ void playerVScomputer()
                 playerChoice(1);
             }
             else {
-                computerChoice();
+                getComputerChoice(2);
             }
             char winner = checkWinner();
             if (winner == 'X') {
@@ -83,15 +86,58 @@ void playerVScomputer()
     } while (option == "Y" || option == "y");
 }
 
-void computerChoice()
+void computerVScomputer()
 {
-    srand(time(0));
-    int choice;
-    do
     {
-        choice = rand() % 10;
-    } while (board[choice] != ' ');
-    board[choice] = 'O';
+        system("cls");
+        cout << "\n";
+        cout << "\t\t\t\t\t\t *****************\n";
+        cout << "\t\t\t\t\t\t    Tic-Tac-Toe\n";
+        cout << "\t\t\t\t\t\t *****************\n\n\n\n";
+        cout << "\t\t\t\t\t AFFLE VS FANDROID .\n\n" << endl;
+        string option;
+
+        do
+        {
+            while (true)
+            {
+                system("cls");
+                drawBoard();
+                if (boardCount('X') == boardCount('O')) {
+                    cout << "Your Turn." << endl;
+                    getComputerChoice(1);
+                    Sleep(1500);
+                }
+                else {
+                    getComputerChoice(2);
+                    Sleep(1500);
+                }
+                char winner = checkWinner();
+                if (winner == 'X') {
+                    system("cls");
+                    drawBoard();
+                    cout << "Affle Won The Game." << endl;
+                    computerHistory(-1);
+                    break;
+                }
+                else if (winner == 'O') {
+                    system("cls");
+                    drawBoard();
+                    cout << "Fandroid Won The Game." << endl;
+                    computerHistory(1);
+                    break;
+                }
+                else if (winner == 'D') {
+                    cout << "Game is Draw." << endl;
+                    computerHistory(0);
+                    break;
+                }
+            }
+            cout << " Press 'Y' to play again. " << endl;
+            cin >> option;
+            clearBoard();
+        } while (option == "Y" || option == "y");
+    }
 }
 
 void computerHistory(int result)
@@ -114,7 +160,6 @@ void computerHistory(int result)
     cout << "\t\tWin: \t" << computerWin << endl;
     cout << "\t\tLoss: \t" << computerLoss << endl;
     cout << "\t\tDraw: \t" << computerDraw << endl;
-    //cout << computerWin << "    " << computerLoss << "     " << computerDraw << endl;
 }
 
 void playerVSplayer()
@@ -171,7 +216,10 @@ void playerVSplayer()
 
 void playerChoice(int symbol )
 {
-    while (true) {
+
+    //auto begin = chrono::steady_clock::now();
+    while (true) 
+    {
         cout << "Select Your Position(1 - 9) : ";
         int choice;
         cin >> choice;
@@ -195,6 +243,8 @@ void playerChoice(int symbol )
             }
         }
     }
+    //auto end = chrono::steady_clock::now(); //time after the sorting is completed
+    //auto time = end - begin; //the difference between starting time and end time is time taken to execute sorting
 }
 
 char checkWinner()
@@ -244,5 +294,102 @@ void clearBoard()
     }
 }
 
+void getComputerChoice(int symbol)
+{
+    int AImove;
 
+    if (boardCount('X') == 0)
+    {
+        srand(time(0));
+        AImove = rand() % 10;
+    }
+    else 
+    {
+        AImove = minimax(board);
+    }
+    if (symbol == 1)
+    {
+        board[AImove] = 'X';
+    }
+    else
+    {
+        board[AImove] = 'O';
+    }
+}
 
+//Minimax algorithm
+int score() {
+    if (checkWinner() == 'X') { return 10; }
+    else if (checkWinner() == 'O') { return -10; }
+    return 0; // draw
+}
+
+int minimax(char AIBoard[9])
+{
+    int bestMoveScore = 1000; 
+    int bestmove;
+
+    for (int i = 0; i < 9; i++)
+    {
+        //for (int j = 0; j < 3; j++) {
+        if (AIBoard[i] == ' ')
+        {
+            AIBoard[i] = 'O';
+            int tempMoveScore = maxSearch(AIBoard);
+            if (tempMoveScore <= bestMoveScore)
+            {
+                bestMoveScore = tempMoveScore;
+                bestmove = i;
+            }
+            AIBoard[i] = ' ';
+        }
+    }
+
+    return bestmove;
+}
+
+int maxSearch(char AIboard[9])
+{
+    if (checkWinner()!='C') return score();
+    int bestMove;
+
+    int bestMoveScore = -1000;
+    for (int i = 0; i < 9; i++)
+    {
+        if (AIboard[i] == ' ')
+        {
+            AIboard[i] = 'X';
+            int tempMoveScore = minSearch(AIboard);
+            if (tempMoveScore >= bestMoveScore)
+            {
+                bestMoveScore = tempMoveScore;
+                bestMove = i;
+            }
+            AIboard[i] = ' ';
+        }
+    }
+    return bestMoveScore;
+}
+
+int minSearch(char AIboard[9]) {
+    if (checkWinner() != 'C') return score();
+    int bestMove;
+
+    int bestMoveScore = 1000;
+    for (int i = 0; i < 9; i++)
+    {
+        if (AIboard[i] == ' ')
+        {
+            AIboard[i] = 'O';
+            int tempMoveScore = minSearch(AIboard);
+            if (tempMoveScore <= bestMoveScore)
+            {
+                bestMoveScore = tempMoveScore;
+                bestMove = i;
+            }
+            AIboard[i] = ' ';
+        }
+    }
+
+    return bestMoveScore;
+}

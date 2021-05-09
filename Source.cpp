@@ -9,13 +9,18 @@ int main()
     int mode;
     string option;
 
-    cout << "\n\n\t\t\t\t\t\t Tic Tac Toe" << endl;
-    cout << "\n\n\nSelect Game Mode" << endl << endl;
+    cout << "\n";
+    cout << "\t\t\t\t\t\t *****************\n";
+    cout << "\t\t\t\t\t\t    Tic-Tac-Toe\n";
+    cout << "\t\t\t\t\t\t *****************\n\n\n\n";
+    cout << "\n\n\n Select Game Mode" << endl << endl;
     cout << "\t1.Computer VS Player." << endl;
-    cout << "\t2.Player VS Player." << endl << endl;
-    cout << "Please select your game mode...... " << endl;
+    cout << "\t2.Player VS Player." << endl;
+    cout << "\t3.Computer VS Computer." << endl << endl;
+    cout << " Please select your game mode: ";
     cin >> mode;
-    switch (mode) {
+    switch (mode) 
+    {
     case 1:
         playerVScomputer();
         break;
@@ -24,10 +29,15 @@ int main()
         playerVSplayer();
         break;
 
-    default:
-        cout << "Please Select Valid Game Mode." << endl;
+    case 3:
+        computerVScomputer();
         break;
+
+    default:
+        cout << " Please Select Valid Game Mode." << endl;
+        //break;
     }
+
     //system("cls");
     return 0;
 }
