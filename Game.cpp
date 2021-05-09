@@ -11,6 +11,7 @@ using namespace std;
 //create an array of size 9
 char board[9] = { ' ',' ',' ',' ',' ',' ',' ',' ',' ' }; 
 int computerWin, computerDraw, computerLoss; //stores computer game stats against player
+double timeTaken;
 
 //draw a TicTacToe board to play
 void drawBoard()
@@ -130,14 +131,14 @@ void displayExitScreen()
 void displayPreviewScreen()
 {
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             system("cls");
-            Sleep(700);
+            Sleep(400);
             cout << "\n\n\t\t\t\t\t      *****************\n";
             cout << "\t\t\t\t\t         Tic-Tac-Toe\n";
             cout << "\t\t\t\t\t      *****************\n\n";
-            Sleep(700);
+            Sleep(400);
         }
         Sleep(500);
 
@@ -206,7 +207,7 @@ void playerVScomputer()
             if (boardCount('X') == boardCount('O')) 
             {
                 cout << " Your Turn." << endl;
-                playerChoice(1);
+                playerChoice(1, &timeTaken);
             }
             else 
             {
@@ -282,15 +283,16 @@ void playerVSplayer()
             system("cls");
             drawBoard();
             cout << "\t\t\t\t\t\t "<<player1<<" VS " << player2<<"\n\n" << endl;
+            cout << " You only have 15 seconds to make your move otherwise you loose." << endl<<endl;
             if (boardCount('X') == boardCount('O')) 
             {
                 cout << " " << player1 << "'s Turn." << endl;
-                playerChoice(1);
+                playerChoice(1, &timeTaken);
             }
             else 
             {
                 cout << " " << player2 << "'s Turn." << endl;
-                playerChoice(2);
+                playerChoice(2, &timeTaken);
             }
             char winner = checkWinner();
             if (winner == 'X') 
@@ -312,6 +314,25 @@ void playerVSplayer()
                 cout << " Game is Draw." << endl;
                 break;
             }
+
+            //checks time
+            if (winner == 'XT')
+            {
+                system("cls");
+                drawBoard();
+                cout << " " << player2 << " took too much time." << endl;
+                cout << " " << player1 << " Won The Game." << endl;
+                break;
+            }
+            else if (winner == 'OT')
+            {
+                system("cls");
+                drawBoard();
+                cout << " " << player1 << " took too much time." << endl;
+                cout << " " << player2 << " Won The Game." << endl;
+                break;
+            }
+
         }
         cout << "\n\n P: Play Again \t\t B: Main Menu \t\t Q: Quit" << endl;
         cout << " Enter your choice: ";
@@ -429,10 +450,10 @@ void computerHistory(int result)
 
 
 //get choice from player and computer
-void playerChoice(int symbol )
+void playerChoice(int symbol, double* timeTaken )
 {
 
-    //auto begin = chrono::steady_clock::now();
+    auto begin = chrono::steady_clock::now();
     while (true) 
     {
         cout << " Select Your Position(1 - 9) : ";
@@ -464,8 +485,9 @@ void playerChoice(int symbol )
             }
         }
     }
-    //auto end = chrono::steady_clock::now(); //time after the sorting is completed
-    //auto time = end - begin; //the difference between starting time and end time is time taken to execute sorting
+    auto end = chrono::steady_clock::now(); //time after the sorting is completed
+    auto time = end - begin; //the difference between starting time and end time is time taken to execute sorting
+    *timeTaken = chrono::duration <double, milli>(time).count();
 }
 
 void getComputerChoice(int symbol)
@@ -498,6 +520,16 @@ void getComputerChoice(int symbol)
 //check if any player has won
 char checkWinner()
 {
+    //check time
+    if (boardCount('X') == boardCount('O') || timeTaken > 15000)
+    {
+        return 'OT';
+    }
+    else if (boardCount('X') != boardCount('O') || timeTaken > 15000)
+    {
+        return 'XT';
+    }
+
     // checking winner in row
     if (board[0] == board[1] && board[1] == board[2] && board[0] != ' ')
         return board[0]; //returns 'X' or 'O'

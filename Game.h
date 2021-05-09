@@ -18,11 +18,10 @@ void playerVScomputer();
 void computerVScomputer();
 void playerVSplayer();
 
-void playerChoice(int symbol);
+void playerChoice(int symbol,double* timeTaken);
 void getComputerChoice(int symbol);
 
 void computerHistory(int result);
-
 char checkWinner();
 
 int boardCount(char symbol);
