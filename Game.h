@@ -18,7 +18,7 @@ void playerVScomputer();
 void computerVScomputer();
 void playerVSplayer();
 
-void playerChoice(int symbol,double* timeTaken);
+void playerChoice(int symbol); //,double* timeTaken);
 void getComputerChoice(int symbol);
 
 void computerHistory(int result);

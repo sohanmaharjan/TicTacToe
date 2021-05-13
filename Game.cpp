@@ -207,7 +207,7 @@ void playerVScomputer()
             if (boardCount('X') == boardCount('O')) 
             {
                 cout << " Your Turn." << endl;
-                playerChoice(1, &timeTaken);
+                playerChoice(1); //, &timeTaken);
             }
             else 
             {
@@ -283,16 +283,16 @@ void playerVSplayer()
             system("cls");
             drawBoard();
             cout << "\t\t\t\t\t\t "<<player1<<" VS " << player2<<"\n\n" << endl;
-            cout << " You only have 15 seconds to make your move otherwise you loose." << endl<<endl;
+            //cout << " You only have 15 seconds to make your move otherwise you loose." << endl<<endl;
             if (boardCount('X') == boardCount('O')) 
             {
                 cout << " " << player1 << "'s Turn." << endl;
-                playerChoice(1, &timeTaken);
+                playerChoice(1); // , & timeTaken);
             }
             else 
             {
                 cout << " " << player2 << "'s Turn." << endl;
-                playerChoice(2, &timeTaken);
+                playerChoice(2); // , & timeTaken);
             }
             char winner = checkWinner();
             if (winner == 'X') 
@@ -450,10 +450,10 @@ void computerHistory(int result)
 
 
 //get choice from player and computer
-void playerChoice(int symbol, double* timeTaken )
+void playerChoice(int symbol) //, double* timeTaken )
 {
 
-    auto begin = chrono::steady_clock::now();
+    //auto begin = chrono::steady_clock::now();
     while (true) 
     {
         cout << " Select Your Position(1 - 9) : ";
@@ -485,9 +485,9 @@ void playerChoice(int symbol, double* timeTaken )
             }
         }
     }
-    auto end = chrono::steady_clock::now(); //time after the sorting is completed
-    auto time = end - begin; //the difference between starting time and end time is time taken to execute sorting
-    *timeTaken = chrono::duration <double, milli>(time).count();
+    //auto end = chrono::steady_clock::now(); //time after the sorting is completed
+    //auto time = end - begin; //the difference between starting time and end time is time taken to execute sorting
+    //*timeTaken = chrono::duration <double, milli>(time).count();
 }
 
 void getComputerChoice(int symbol)
@@ -520,15 +520,16 @@ void getComputerChoice(int symbol)
 //check if any player has won
 char checkWinner()
 {
+    /*
     //check time
     if (boardCount('X') == boardCount('O') || timeTaken > 15000)
     {
         return 'OT';
     }
-    else if (boardCount('X') != boardCount('O') || timeTaken > 15000)
+    if (boardCount('X') != boardCount('O') || timeTaken > 15000)
     {
         return 'XT';
-    }
+    }*/
 
     // checking winner in row
     if (board[0] == board[1] && board[1] == board[2] && board[0] != ' ')
